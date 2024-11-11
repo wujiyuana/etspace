@@ -77,8 +77,13 @@ import pandas as pd
 import time
 from streamlit import text_area
 
+# 设置标签页的名称和图标
+st.set_page_config(
+    page_title="你猜猜这是谁的网站",  # 标签页的名称
+    page_icon="🌟"         # 标签页的图标，可以是 emoji 或 URL
+)
 #添加一个标题
-st.title('吴佳沅的个人空间')
+st.title('个人空间')
 
 #添加水平分割线
 st.divider()
