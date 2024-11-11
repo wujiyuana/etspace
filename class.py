@@ -74,6 +74,7 @@
 #streamlit 入门
 import streamlit as st
 import pandas as pd
+import time
 from streamlit import text_area
 
 #添加一个标题
@@ -119,5 +120,92 @@ data = {
     '特征':['及其内卷','憨态可掬','优雅永不过时','好奇心强']
 }
 df = pd.DataFrame(data)
+'开始一个长时间的计算...'
+
+# 添加一个占位符
+latest_iteration = st.empty()
+bar = st.progress(0)
+
+for i in range(100):
+  # 每次迭代更新进度条。
+  latest_iteration.text(f'第 {i+1} 次迭代')
+  bar.progress(i + 1)
+  time.sleep(0.1)
+
+'...现在我们完成了！'
 st.write(df)
 st.table(df)
+st.divider()
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import altair as alt
+
+if "df" not in st.session_state:
+    st.session_state.df = pd.DataFrame(np.random.randn(20, 2), columns=["x", "y"])
+
+st.header("Customize the scatter plot")
+color = st.color_picker("Choose point color", "#FF0000")
+size = st.slider("Choose point size", min_value=10, max_value=200, value=60)
+
+scatter_plot = alt.Chart(st.session_state.df).mark_circle(size=size).encode(
+    x="x",
+    y="y",
+    color=alt.value(color)
+).properties(
+    width=600,
+    height=400
+)
+
+st.altair_chart(scatter_plot, use_container_width=True)
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import altair as alt
+
+if "df" not in st.session_state:
+    st.session_state.df = pd.DataFrame(np.random.randn(20, 2), columns=["x", "y"])
+
+st.header("Scatter plot with color gradient")
+
+# 创建散点图，使用 y 值作为颜色渐变依据
+scatter_plot = alt.Chart(st.session_state.df).mark_circle(size=60).encode(
+    x="x",
+    y="y",
+    color=alt.Color("y", scale=alt.Scale(scheme="blueorange"))  # 使用颜色渐变
+).properties(
+    width=600,
+    height=400
+)
+
+st.altair_chart(scatter_plot, use_container_width=True)
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import altair as alt
+
+if "df" not in st.session_state:
+    st.session_state.df = pd.DataFrame(np.random.randn(50, 2), columns=["x", "y"])
+
+st.header("Scatter plot with interactive selection")
+
+# 创建一个交互选择对象
+brush = alt.selection(type="interval")
+
+# 散点图，使用交互选择
+scatter_plot = alt.Chart(st.session_state.df).mark_circle(size=60).encode(
+    x="x",
+    y="y",
+    color=alt.condition(brush, alt.value("steelblue"), alt.value("lightgray"))
+).add_selection(
+    brush  # 将交互对象添加到图表
+).properties(
+    width=600,
+    height=400
+)
+
+st.altair_chart(scatter_plot, use_container_width=True)
+
