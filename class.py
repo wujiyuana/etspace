@@ -73,6 +73,7 @@
 
 #streamlit 入门
 import streamlit as st
+import pandas as pd
 from streamlit import text_area
 
 #添加一个标题
@@ -110,3 +111,13 @@ if checked:
 # 按钮
 if st.button("提交"):
     st.write("感谢提交")
+
+data = {
+    '名字':['刘鹿','小鱼','飞鱼','大狼'],
+    '出生日期':['2004.9.12','2005.7.8','2004.12.27','2006.1.1'],
+    '性别':['超雄','超超雄','雌','超雌'],
+    '特征':['及其内卷','憨态可掬','优雅永不过时','好奇心强']
+}
+df = pd.DataFrame(data)
+st.write(df)
+st.table(df)
